@@ -1,0 +1,67 @@
+{
+	"execution": [{
+		"concurrency": 10,
+		"hold-for": "60s",
+		"ramp-up": "60s",
+		"scenario": "Thread Group"
+	}],
+	"scenarios": {
+		"Thread Group": {
+			"data-sources": [{
+				"delimiter": ",",
+				"loop": true,
+				"path": "data.csv",
+				"quoted": false,
+				"ignoreFirstLine":"true",
+				"variable-names": ""
+			}],
+			"requests": [{
+				"assert": [{
+					"assume-success": false,
+					"contains": ["\"status\":\"Success\""],
+					"not": false,
+					"regexp": false,
+					"subject": "body"
+				}],
+				"headers": {
+					"Accept": "application/json",
+					"id": "loadtest",
+					"user-id": "5"
+				},
+				"extract-regexp": {
+					"correlationParam": {
+						"default": "Not Found",
+						"match-no": 1,
+						"regexp": "\"status\":\"(.+?)\"",
+						"template": "$1$"
+					}
+				},
+				"label": "GET abc",
+				"method": "GET",
+				"url": "http://abc.abc.com/abc-abc-service-api/v1/abc/${id}?debug=false"
+			}]
+		}
+	},
+	"reporting": [{
+		"module": "console"
+	},
+	{
+		"module": "final-stats",
+		"summary": true,
+		"percentiles": true,
+		"failed-labels": false,
+		"test-duration": true,
+		"dump-csv": "abcResult\/perf_result_csv.csv"
+	},
+	{
+		"module": "junit-xml",
+		"data-source": "pass-fail",
+		"filename": "abcResult\/junit-result.xml"
+	},
+	{
+		"module": "blazemeter",
+		"report-name": "abc test report",
+		"test": "abc test",
+		"project": "abc test project"
+	}]
+}
