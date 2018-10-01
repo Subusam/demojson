@@ -10,7 +10,7 @@
 			"data-sources": [{
 				"delimiter": ",",
 				"loop": true,
-				"path": "data.csv",
+				"path": "c\\subu\\data.csv",
 				"quoted": false,
 				"ignoreFirstLine": "true",
 				"variable-names": ""
